@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<link href="../css/bootstrap.css"  type="text/css" rel="stylesheet"/>
+        <style type="text/css">
+             body{
+             	
+             	background-color: #EEEEEE;
+             }
+        	.jumbotron h1{
+        		color: white;
+        		margin-left: 30px;
+        		
+        	}
+        	.jumbotron{
+        		
+        		margin-bottom: 0px;
+        	}
+        	#carousel-example-generic img{
+        		margin: 0 auto;
+        	}
+        	
+        	#carousel-example-generic{
+        		
+        		margin-top: 0px;
+        	}
+        	#leftType{
+        		
+        		background-color: white;
+        		box-shadow: 5px 5px 5px #E5E5E5;
+        	}
+        	
+        
+			
+
+        </style>
+	</head>
+	<body>
+		<!--导航条，在顶部固定-->
+		<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+			 <!--导航条的头部-->
+			 <div class="navbar-header">
+			 	<a class="navbar-brand" >
+			 		Logo
+			 		
+			 	</a>
+			 	
+			 	 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+				      <span class="sr-only">Toggle navigation</span>
+				      <span class="icon-bar"></span>
+				      <span class="icon-bar"></span>
+				      <span class="icon-bar"></span>
+    			</button>
+			 </div>
+			
+			
+			  <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+			  	<ul class="nav navbar-nav navbar-right">
+			  		<li><a href="case.html" id="login"><span class="glyphicon glyphicon-fire"></span><span id="login_info">登录</span></a></li>
+			  		<li><a href="case.html"><span class="glyphicon glyphicon-fire"></span>注册</a></li>
+					<li><a href="shopping.html"><span class="glyphicon glyphicon-home"></span>购物车 <span class="badge">42</span></a></li>
+					<li><a href="information.html"><span class="glyphicon glyphicon-list"></span>个人资料</a></li>
+					 
+	
+				</ul>
+			  </div>
+			
+		</nav>
+		
+	
+
+
+          
+          <!--使用bootstrap栅格系统-->
+		  
+		 <div class="container" style="margin-top: 60px;" id="shoppings">
+		  	 			
+		  	 	 <div class="panel panel-default">
+		  	 	    <div class="panel-body">
+					  	<div class="col-md-1">
+					  		<input type="checkbox" name="shoppingId"/>
+					  	</div>
+					  	<div class="col-md-4">
+					  		<img src="img/test.jpg" width="100%" />
+					  	</div>
+					  	<div  class="col-md-7">
+					  		<h2>手机</h2>
+					  		<p>价格:<span style="color: red;" class="price">1800</span>元</p>
+					  		<p>
+					  			<input type="number" min="0" name="shoppingCount" value="2"/>
+					  		</p>
+					  	</div>
+				  	</div>
+	  			</div>		
+		  	 			
+               <div class="panel panel-default">
+		  	 	    <div class="panel-body">
+					  	<div class="col-md-2">
+					  		<input type="checkbox" name="shoppingId"/>
+					  	</div>
+					  	<div class="col-md-4">
+					  		<img src="img/test.jpg" width="100%" />
+					  	</div>
+					  	<div  class="col-md-6">
+					  		<h2>手机</h2>
+					  		<p>价格:<span style="color: red;" class="price">1800</span>元</p>
+					  		<p>
+					  			<input type="number" min="0" name="shoppingCount" value="2"/>
+					  		</p>
+					  	</div>
+				  	</div>
+	  			</div>		
+		  	 			
+
+		  	 
+		</div>
+		
+         <div>
+	  		<h2 align="right">总价:<span id="result">0</span> <input type="button" value="提交" class="btn btn-danger" id="shop_sub_btn"/>   <input type="submit" value="清空购物车" class="btn btn-danger" id="cleanShopping"/>  </h2>
+	  	          
+	  	</div>
+
+<script src="../js/jquery-1.12.3.min.js" type="text/javascript"></script>
+<script src="../js/bootstrap.min.js" type="text/javascript"></script>
+<script type="text/javascript">
+//登陆成功不能再点击出登陆框
+$("#login").click(function(){
+	if($("#login_info").html()=="登录"){
+		$('#myModal').modal();
+	}
+	return false;
+});
+
+//调用加载页面的函数
+ loadShopping();
+ //加载页面时向服务器发送ajax请求，将购物车中的商品信息展现在页面
+ function loadShopping(){
+ 	$.ajax({
+ 		cache:false,
+ 		url:"getShopping.do",
+ 		type:"post",
+ 		dataType:"json",
+ 		async:true,
+ 		
+ 		error:function(){
+ 			alert("购物车显示失败");
+ 		},
+ 		
+ 		success:function(data){
+ 			//得到map集合中的数组
+ 			var shList=data.shopList;
+ 			var str="";
+ 			for(var i=0;i<shList.length;i++){
+ 				str=str+"<div class=\"panel panel-default\">";
+  	 	    	str=str+"<div class= panel-body>";
+			  	str=str+"<div class= col-md-1>";
+			  	str=str+"<input type=\"checkbox\" name=\"shoppingId\" value="+shList[i].shoppingId+">";
+			  	str=str+"</div>";
+			  	str=str+"<div class= col-md-4>";
+			  	str=str+"<img src=../"+shList[i].goods.goodsImg+" width= 100%>";
+			  	str=str+"</div>";
+			  	str=str+"<div  class= col-md-7>";
+			  	str=str+"<h2>"+shList[i].goods.goodsName+"</h2>";
+			  	str=str+"<p>价格:<span style=\"color: red;\" class=\"price\">"+shList[i].goods.goodsPrice+"</span>元</p>";
+			  	str=str+"<p>商品库存量:<span style=\"color: red;\" class=\"goodsCount\">"+shList[i].goods.goodsCount+"</span></p>";
+			  	str=str+"<p>";
+			  	str=str+"<input type=\"number\" min=\"0\" name=\"shoppingCount\" value="+shList[i].shoppingCount+">";
+			  	str=str+"</p></div></div></div>";		
+ 			}
+ 			
+ 			$("#shoppings").html(str);
+ 			
+ 			var count=window.localStorage.getItem("cusCount");
+ 			$(".badge").text(count);
+ 			//session中获取顾客名，每次加载页面将用户名显示在导航栏
+ 			var customerName=data.cusName;
+ 			checkLogon(customerName);
+ 			
+ 			//复选框添加单击事件
+ 			checkboxClick();
+ 			
+ 			//文本框添加change事件
+ 			shCountChange();
+ 		}
+ 	});
+}
+ 
+ //得到所有复选框，并遍历复选框中的值。得到购物车id,和购车选中框对应的信息
+ function checkboxClick(){
+	 $(":checkbox[name=shoppingId]").click(function(){
+			//遍历复选框
+			eachCheck();
+		});	
+ }
+ 
+ //文本框添加change事件
+ function shCountChange(){
+	 $("[name=shoppingCount]").change(function(){
+		 eachCheck();
+		 
+		 //在服务器上更改数量
+		//得到当前复选框的id
+		var shId=$(this).parents(".panel").children().find("[name=shoppingId]").val();
+	 	//得到文本框的数量
+	 	var count=$(this).val();
+	 	
+	 	//更改购物车
+	 	updateShCount(shId,count);
+	 });
+ }
+ 
+ 
+ function updateShCount(shId,count){
+	$.ajax({
+		cache:false,
+		url:"changeCount.do",
+		type:"post",
+		data:{"shoppingId":shId,"shoppingCount":count},
+		async:true,
+		error:function(){
+			alert("更改购物车失败");
+		},
+		
+		success:function(data){
+			
+		}
+	});	 
+ }
+ 
+ 
+ //遍历复选框得到复选框中的总价
+ function eachCheck(){
+	 var checkBoxs=$(":checkbox[name=shoppingId]:checked");
+	 var sum=0;
+	 checkBoxs.each(function(){
+		 var price=$(this).parents(".panel").children().find(".price").text();
+		 var count=$(this).parents(".panel").children().find("[name=shoppingCount]").val();
+	 	 sum=sum+price*count;	
+	 });
+	 
+	 $("#result").text(Math.round(sum*100)/100);
+	 
+ }
+ 
+ 
+ 
+ 
+ //提交购物车将选中商品Id存入数组，利用浏览器bom对象缓存。跳转到订单确认页面
+ $("#shop_sub_btn").click(function(){
+	 var shIdArr=new Array();
+	 $(":checkbox[name=shoppingId]:checked").each(function(){
+		 shIdArr.push($(this).val());
+	 });
+	 window.localStorage.setItem("shIdArr",shIdArr);
+	 location.href=("orderConfirm.html");
+ });
+ 
+ 
+ //清空购物车
+ $("#cleanShopping").click(function(){
+	 $.ajax({
+		 cache:false,
+		 url:"cleanShopping.do",
+		 type:"post",
+		 async:true,
+		 error:function(){
+			 alert("清空购物车失败");
+		 },
+		 
+		 error:function(data){
+
+			//location.href("shopping.html");
+		 }
+	 });
+ });
+ //登录验证
+ function checkLogon(customerName){
+	 if(customerName!=undefined){
+		 $("#login_info").html(customerName+"已登录");
+	 }else{
+		 $("#login_info").html("登录");
+	 }
+ }
+ 
+ 
+
+
+
+          	
+</script>
+</body>
+</html>

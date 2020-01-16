@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<link href="../css/bootstrap.css"  type="text/css" rel="stylesheet"/>
+        <style type="text/css">
+             body{
+             	
+             	background-color: #EEEEEE;
+             }
+        	.jumbotron h1{
+        		color: white;
+        		margin-left: 30px;
+        		
+        	}
+        	.jumbotron{
+        		
+        		margin-bottom: 0px;
+        	}
+        	#carousel-example-generic img{
+        		margin: 0 auto;
+        	}
+        	
+        	#carousel-example-generic{
+        		
+        		margin-top: 0px;
+        	}
+        	#leftType{
+        		
+        		background-color: white;
+        		box-shadow: 5px 5px 5px #E5E5E5;
+        	}
+        	
+        
+			
+
+        </style>
+	</head>
+	<body>
+		<!--导航条，在顶部固定-->
+		<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+			 <!--导航条的头部-->
+			 <div class="navbar-header">
+			 	<a class="navbar-brand" >
+			 		Logo
+			 		
+			 	</a>
+			 	
+			 	 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+				      <span class="sr-only">Toggle navigation</span>
+				      <span class="icon-bar"></span>
+				      <span class="icon-bar"></span>
+				      <span class="icon-bar"></span>
+    			</button>
+			 </div>
+			
+			
+			  <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+			  	<ul class="nav navbar-nav navbar-right">
+			  		<li><a href="case.html" id="login"><span class="glyphicon glyphicon-fire"></span><span id="login_info">登录</span></a></li>
+			  		<li><a href="case.html"><span class="glyphicon glyphicon-fire"></span>注册</a></li>
+					<li><a href="shopping.html"><span class="glyphicon glyphicon-home"></span>购物车 <span class="badge">42</span></a></li>
+					<li><a href="information.html"><span class="glyphicon glyphicon-list"></span>个人资料</a></li>
+					 
+	
+				</ul>
+			  </div>
+			
+		</nav>
+		
+	
+
+
+          
+          <!--使用bootstrap栅格系统-->
+		  
+		 <div class="container" style="margin-top: 60px;" id="shoppings">
+		  	 			
+		  	 	 <div class="panel panel-default">
+		  	 	    <div class="panel-body">
+					  	<div class="col-md-1">
+					  		<input type="checkbox" name="shoppingId"/>
+					  	</div>
+					  	<div class="col-md-4">
+					  		<img src="img/test.jpg" width="100%" />
+					  	</div>
+					  	<div  class="col-md-7">
+					  		<h2>手机</h2>
+					  		<p>价格:<span style="color: red;" class="price">1800</span>元</p>
+					  		<p>
+					  			<input type="number" min="0" name="shoppingCount" value="2"/>
+					  		</p>
+					  	</div>
+				  	</div>
+	  			</div>		
+		  	 			
+               <div class="panel panel-default">
+		  	 	    <div class="panel-body">
+					  	<div class="col-md-2">
+					  		<input type="checkbox" name="shoppingId"/>
+					  	</div>
+					  	<div class="col-md-4">
+					  		<img src="img/test.jpg" width="100%" />
+					  	</div>
+					  	<div  class="col-md-6">
+					  		<h2>手机</h2>
+					  		<p>价格:<span style="color: red;" class="price">1800</span>元</p>
+					  		<p>
+					  			<input type="number" min="0" name="shoppingCount" value="2"/>
+					  		</p>
+					  	</div>
+				  	</div>
+	  			</div>		
+		  	 			
+
+		  	 
+		</div>
+		
+		
+		<div class="container">
+			<input type="text" style="width: 80%" placeholder="请输入订单备注" name="orderRemark"/>
+		</div>
+         <div> 
+           
+	  		<h2 align="right">总价:<span id="result">0</span> <input type="button" value="提交订单" class="btn btn-danger" id="order_sub_btn"/> </h2>
+	  	          
+	  	</div>
+
+		<script src="../js/jquery-1.12.3.min.js" type="text/javascript"></script>
+		<script src="../js/bootstrap.min.js" type="text/javascript"></script>
+		<script type="text/javascript">
+		  
+		loadCheckShopping();
+		function loadCheckShopping(){
+			//接收bom对象中的数据
+			var shIdArr=window.localStorage.getItem("shIdArr");
+			$.ajax({
+				cache:false,
+				url:"getCheckShopping.do",
+				type:"post",
+				data:{"shIdArr":shIdArr},
+				dataType:"json",
+				async:true,
+				error:function(){
+					alert("订单页面显示失败");
+				},
+				
+				success:function(data){
+					var shList=data.shopList;
+					var str="";
+					var sum=0;
+					for(var i=0;i<shList.length;i++){
+						str=str+"<div class= panel panel-default >";
+			  	 	    str=str+"<div class= panel-body >";
+						str=str+"<div class= col-md-1 >";
+						str=str+"<input type= hidden  name= shoppingId value="+shList[i].shoppingId+" />";
+						str=str+"</div>";
+						str=str+"<div class= col-md-4 >";
+						str=str+"<img src=../"+shList[i].goods.goodsImg+"  width= 100% />";
+						str=str+"</div>";
+						str=str+"<div  class= col-md-7 >";
+						str=str+"<h2>"+shList[i].goods.goodsName+"</h2>";
+						str=str+"<p>价格:<span style=\"color: red;\" class= price >"+shList[i].goods.goodsPrice+"</span>元</p>";
+						str=str+"<p>数量：<span id= shoppingCount >"+shList[i].shoppingCount+"</span></p></div></div></div>";
+						sum=sum+shList[i].goods.goodsPrice*shList[i].shoppingCount;
+					}
+					
+					$("#shoppings").html(str);
+					$("#result").text(Math.round(sum*100)/100);	
+					//验证登录
+					var customerName=data.cuaName;
+					checkLogon(customerName);
+				}
+			});
+		}
+		
+		//提交订单那按钮添加点击事件，得到所有的购物车id，备注信息，总价
+		$("#order_sub_btn").click(function(){
+			//得到所有购物车id
+			var shIdArr=new Array();
+			$(":hidden[name=shoppingId]").each(function(){
+				shIdArr.push($(this).val());
+			});
+			//得到备注信息
+			var remarks=$(":text[name=orderRemark]").val();
+			//得到总价
+			var totalPrice=$("#result").text();
+			alert(totalPrice);
+			//向服务器发送ajax请求
+			$.ajax({
+				cache:false,
+				url:"orderConfirm.do",
+				type:"post",
+				data:{"shIdArr":shIdArr.join(","),"remarks":remarks,"price":totalPrice},
+				async:true,
+				error:function(){
+					alert("提交订单失败");
+				},
+				
+				success:function(data){
+					alert("提交订单成功");
+				}
+			});
+		})
+		
+		
+		
+		function checkLogon(customerName){
+			if(customerName!=undefined){
+				$("#login_info").text(customerName+"已登录");
+			}else{
+				$("#login_info").text("已登录");
+			}
+		}
+		
+		
+		
+		
+		</script>
+	</body>
+</html>
