@@ -284,11 +284,55 @@ public class GoodsDao {
 			ConnectionManager.closeConnection(conn);
 		}
 	}
-//	/**分页显示条件查询的信息*/
-//	public List<Goods> selectGoods(String goodsCode, String goodsName, PageInfo<Goods> pageInfo) {
-//		Connection conn = ConnectionManager.getConnections();
-//		String sql = "";
-//		PreparedStatement pre = conn
-//	}
+	/**查询所有符合查询条件的分页信息
+	 * @throws SQLException */
+	public List<Goods> selectGoods(String goodsCode, String goodsName, PageInfo<Goods> pageInfo) throws SQLException {
+		Connection conn = ConnectionManager.getConnections();
+		try {
+			String sql = "SELECT goods_id,goods_code,goods_name,goods_date,goods_price,goods_count,goods_img,goods_remarks,producer_name,goodstype_name FROM goods g JOIN producer pro ON g.`producer_id` = pro.`producer_id` JOIN goodstype gs ON g.`goodstype_id` = gs.`goodstype_id` where 1=1 ";
+			if(goodsName!=null&&!goodsName.equals("")){
+				sql = sql+" and goods_name like ?";
+			}
+			if(goodsCode!=null&&!goodsCode.equals("")){
+				sql = sql+" and goods_code like ?";
+			}
+			sql = sql+" limit ?,?";
+			PreparedStatement pre = conn.prepareStatement(sql);
+			int count = 0;
+			if(goodsName!=null&&!goodsName.equals("")){
+				count++;
+				pre.setString(count, "%"+goodsName+"%");
+			}
+			if(goodsCode!=null&&!goodsCode.equals("")){
+				count++;
+				pre.setString(count, "%"+goodsCode+"%");
+			}
+			pre.setInt(count+1, (pageInfo.getCurrentPage()-1)*pageInfo.getPageSize());
+			pre.setInt(count+2, pageInfo.getPageSize());
+			ResultSet rs = pre.executeQuery();
+			List<Goods> li = new ArrayList<>();
+			while(rs.next()){
+				int goodsId = rs.getInt("goods_id");
+				String goodCode = rs.getString("goods_code");
+				String goodName=rs.getString("goods_name");
+				float goodsPrice=rs.getFloat("goods_price");
+				int goodsCount = rs.getInt("goods_count");
+				Date goodsData =rs.getDate("goods_date");
+				String goodsImg=rs.getString("goods_img");
+				String goodsRemarks=rs.getString("goods_remarks");
+				String proName = rs.getString("producer_name");
+				String gsName = rs.getString("goodstype_name");
+				GoodsType gt = new GoodsType();
+				gt.setGsname(gsName);
+				Producer pro = new Producer();
+				pro.setProName(proName);
+				Goods gs = new Goods(goodsId, goodCode, goodName, goodsData, goodsPrice, goodsCount, goodsImg, goodsRemarks, pro, gt);
+				li.add(gs);
+			}
+			return li;
+		} finally{
+			ConnectionManager.closeConnection(conn);
+		}
+	}
 
 }

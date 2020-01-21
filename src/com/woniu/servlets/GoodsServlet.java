@@ -9,6 +9,7 @@ import java.io.OutputStream;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
@@ -56,6 +57,7 @@ public class GoodsServlet extends HttpServlet {
 		GoodsDao gd = new GoodsDao();
 		PageInfo<Goods> pageInfo = new PageInfo<>();
 		if(path.equals("/goods/showgoods.do")){
+		
 			try {
 				String goodsCode = request.getParameter("goodsCode");
 				String goodsName = request.getParameter("goodsName");
@@ -66,17 +68,42 @@ public class GoodsServlet extends HttpServlet {
 				
 				//页面显示条目数
 				int pageSize = 3;
+				String tempPageSize = request.getParameter("pageSize");
+				if(tempPageSize!=null){
+					pageSize = Integer.parseInt(tempPageSize);
+				}
+				
 				pageInfo.setPageSize(pageSize);
 				
 				//当前页
 				int currentPage = 1;
+				String tempCurrentPage = request.getParameter("currentPage");
+				if(tempCurrentPage!=null){
+					currentPage = Integer.parseInt(tempCurrentPage);
+					
+				}
+				if(currentPage<1){
+					currentPage = 1;
+				}
+				if(currentPage > pageInfo.getTotalPages()){
+					currentPage = pageInfo.getTotalPages();
+					if(currentPage==0){
+						currentPage=1;
+					}
+				}
+				
 				pageInfo.setCurrentPage(currentPage);
 				
 				//查询符合条件的分页信息
-				//List<Goods> li = gd.selectGoods(goodsCode,goodsName,pageInfo);
-				List<Goods> goodsli = gd.selectGoods();
-				request.setAttribute("goodsList", goodsli);
-				
+				List<Goods> li = gd.selectGoods(goodsCode,goodsName,pageInfo);
+				pageInfo.setLi(li);
+				Map<String,Object> map = new HashMap<>();
+				map.put("page", pageInfo);
+				map.put("gscode",goodsCode);
+				map.put("gsname", goodsName);
+//				List<Goods> goodsli = gd.selectGoods();
+//				request.setAttribute("goodsList", goodsli);
+				request.setAttribute("map", map);
 				request.getRequestDispatcher("goods.jsp").forward(request, response);
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
