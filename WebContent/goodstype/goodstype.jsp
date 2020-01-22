@@ -37,18 +37,21 @@
 				<td>${goodstype.gsRemarks }</td>
 				
 				<td style="width:140px;">
-					
-						<a href="${pageContext.request.contextPath}/goodstype/goodstypeConf.do?goodstypeId=${goodstype.gsId}" class="btn btn-success btn-xs">确认</a>
-		
-					
-						<a href="${pageContext.request.contextPath}/goodstype/goodstypeUpdUI.do?goodstypeId=${goodstype.gsId}" class="btn btn-warning btn-xs">修改</a>
-						<a href="${pageContext.request.contextPath}/goodstype/goodstypeDel.do?goodstypeId=${goodstype.gsId}" class="btn btn-danger btn-xs">删除</a>
+					<goodstype:choose>
+						<goodstype:when test="${goodstype.gsRemarks=='未确认'}">
+							<a href="${pageContext.request.contextPath}/goodstype/goodstypeConf.do?goodstypeId=${goodstype.gsId}" class="btn btn-success btn-xs">确认</a>
+						</goodstype:when>
+						<goodstype:otherwise>
+							<a href="${pageContext.request.contextPath}/goodstype/goodstypeUpdUI.do?goodstypeId=${goodstype.gsId}" class="btn btn-warning btn-xs">修改</a>
+							<a href="${pageContext.request.contextPath}/goodstype/goodstypeDel.do?goodstypeId=${goodstype.gsId}" class="btn btn-danger btn-xs">删除</a>
+						</goodstype:otherwise>
+					</goodstype:choose>
 				</td>
 			</tr>
 		</goodstype:forEach>		
 	</tbody>
 			<tr >
-				<td colspan="4">
+				<td colspan="5">
 					<a href="javascript:goPage(1)">首页</a>
 					&nbsp;&nbsp;&nbsp;&nbsp;
 					<a href="javascript:goPage(${requestScope.map.page.currentPage-1 })">上一页</a>

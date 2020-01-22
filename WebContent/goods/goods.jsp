@@ -49,12 +49,12 @@
 				<td>${goods.goodsRemarks }</td>
 				
 				<td style="width:140px;">
-					
+					<goods:if test="${goods.goodsRemarks=='未确认'}">
 						<a href="${pageContext.request.contextPath}/goods/goodsConf.do?goodsId=${goods.goodsId}" class="btn btn-success btn-xs">确认</a>
-		
-					
+					</goods:if>
 						<a href="${pageContext.request.contextPath}/goods/goodsUpdUI.do?goodsId=${goods.goodsId}" class="btn btn-warning btn-xs">修改</a>
 						<a href="${pageContext.request.contextPath}/goods/goodsDel.do?goodsId=${goods.goodsId}" class="btn btn-danger btn-xs">删除</a>
+					
 				</td>
 			</tr>
 		</goods:forEach>		

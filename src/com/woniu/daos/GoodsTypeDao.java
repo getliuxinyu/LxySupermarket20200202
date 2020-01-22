@@ -83,11 +83,11 @@ public class GoodsTypeDao {
 			int count =0;
 			if(goodsTypeCode!=null&&!goodsTypeCode.equals("")){
 				count++;
-				pre.setString(count, goodsTypeCode);
+				pre.setString(count, "%"+goodsTypeCode+"%");
 			}
 			if(goodsTypeName!=null&&!goodsTypeName.equals("")){
 				count++;
-				pre.setString(count, goodsTypeName);
+				pre.setString(count, "%"+goodsTypeName+"%");
 			}
 			
 			pre.setInt(count+1, (pageInfo.getCurrentPage()-1)*pageInfo.getPageSize());

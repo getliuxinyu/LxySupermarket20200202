@@ -47,18 +47,36 @@ public class GoodsTypeServlet extends HttpServlet {
 				pageInfo.setTotalCount(totalCount);
 				
 				int pageSize = 2;
+				String tempPageSize = request.getParameter("pageSize");
+				if(tempPageSize!=null){
+					pageSize=Integer.parseInt(tempPageSize);
+				}
 				pageInfo.setPageSize(pageSize);
 				
 				int currentPage = 1;
+				String tempcurrentPage = request.getParameter("currentPage");
+				if(tempcurrentPage!=null){
+					currentPage = Integer.parseInt(tempcurrentPage);
+				}
+				if(currentPage < 1){
+					currentPage=1;
+				}
+				if(currentPage > pageInfo.getTotalPages()){
+					currentPage = pageInfo.getTotalPages();
+					if(currentPage==0){
+						currentPage=1;
+					}
+				}
 				pageInfo.setCurrentPage(currentPage);
 				
 				List<GoodsType> li = gd.selectGoodsType(goodsTypeCode,goodsTypeName,pageInfo);
-				
+				System.out.println(li);
 				pageInfo.setLi(li);
 				Map<String, Object> map = new HashMap<String, Object>();
 				map.put("gscode", goodsTypeCode);
 				map.put("gsname", goodsTypeName);
 				map.put("page", pageInfo);
+				request.setAttribute("map", map);
 				request.getRequestDispatcher("goodstype.jsp").forward(request, response);
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block

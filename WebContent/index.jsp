@@ -118,13 +118,12 @@
 		</div>
 	</div>
 
-</div>
+
 
 
 
 <script type="text/javascript" src="${pageContext.request.contextPath }/js/jquery-1.12.3.min.js"></script>
-<script type="text/javascript" src="${pageContext.request.contextPath }js/bootstrap.min.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath }/js/bootstrap.min.js"></script>
 
-</script>
 </body>
 </html>
