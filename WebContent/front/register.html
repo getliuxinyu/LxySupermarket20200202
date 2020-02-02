@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<link href="../css/bootstrap.css"  type="text/css" rel="stylesheet"/>
+        <style type="text/css">
+             body{
+             	
+             	background-color: #EEEEEE;
+             }
+        	.jumbotron h1{
+        		color: white;
+        		margin-left: 30px;
+        		
+        	}
+        	.jumbotron{
+        		
+        		margin-bottom: 0px;
+        	}
+        	#carousel-example-generic img{
+        		margin: 0 auto;
+        	}
+        	
+        	#carousel-example-generic{
+        		
+        		margin-top: 0px;
+        	}
+        	#leftType{
+        		
+        		background-color: white;
+        		box-shadow: 5px 5px 5px #E5E5E5;
+        	}
+        	
+        
+			
+
+        </style>
+	</head>
+	<body>
+
+		<!--导航条，在顶部固定-->
+		<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+			 <!--导航条的头部-->
+			 <div class="navbar-header">
+			 	<a class="navbar-brand" >
+			 		Logon
+			 		
+			 	</a>
+			 	
+			 	 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+				      <span class="sr-only">Toggle navigation</span>
+				      <span class="icon-bar"></span>
+				      <span class="icon-bar"></span>
+				      <span class="icon-bar"></span>
+    			</button>
+			 </div>
+			
+			
+			  <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+			  	<ul class="nav navbar-nav navbar-right">
+			  		<li><span class="glyphicon glyphicon-fire"></span>欢迎注册</li>
+				</ul>
+			  </div>
+			
+		</nav>
+		
+	
+
+
+          
+          <!--使用bootstrap栅格系统-->
+		  
+		 <div class="container" style="margin-top: 250px;width: 800px" id="shoppings">
+		  	 	<div  class="col-md-12">
+		 			    <form class="form-horizontal"  id="register_form"> 
+							<div class="form-group">	
+		  	 	
+						  	 <label for="goodsname" class="col-sm-2 control-label">用户名：</label>
+							    <div class="col-sm-6">
+							     	 <input type="text" class="form-control" id="goodsname" name="cusName" >
+							    </div>
+							     	  <span id="cusName" style="color: red"></span>
+						    </div>
+						    
+						 <div class="form-group">   
+							 <label for="name" class="col-sm-2 control-label">手机：</label>
+							    <div class="col-sm-6">
+							     	 <input type="text" class="form-control" id="name" name="cusPhone" >
+							     	  
+							    </div>
+							     	  <span id="cusPhone" style="color: red"></span>
+						    </div> 
+						    
+						  <div class="form-group">      
+						     <label for="goodsname" class="col-sm-2 control-label">住址：</label>
+						    	<div class="col-sm-6">
+						     	 	<input type="text" class="form-control" id="goodsname" name="cusAddress" >
+						     	 	
+							    </div>
+							   
+						     	 	 <span id="cusAddress" style="color: red"></span>
+							   
+						   </div>
+						   
+						  <div class="form-group">  
+							 <label for="goodsname" class="col-sm-2 control-label">密码：</label>
+							    <div class="col-sm-6">
+							     	 <input type="password" class="form-control" id="goodsname" name="cusPwd" >
+							     	 
+							    </div>
+							    
+							     	  <span id="cusPwd" style="color: red"></span>
+							    
+						  </div>
+						  
+						  <div class="form-group">
+							 <label for="goodsname" class="col-sm-2 control-label">确认密码：</label>
+							    <div class="col-sm-6">
+							     	 <input type="password" class="form-control" id="goodsname" name="cusPwd2" >
+							     	 
+							    </div>
+							  
+							     	 <span id="cusPwd2" style="color: red"></span>
+						 		
+						   
+				  		</div>
+				  	
+				  	<div class="form-group">
+				  		<div>
+				  			 <label for="goodsname" class="col-sm-2 control-label"></label>
+				  		</div>
+						    <div class="col-sm-6">
+						    	<input type="submit" class="btn btn-info" id="register_btn" style="width:100px" value="确认">
+						    	<input type="reset" class="btn btn-info" style="width:100px" value="取消">  
+						    </div>
+					</div>  
+				</form>
+	  		</div>		
+		  	 			
+              
+		  	 			
+
+		  	 
+		</div>
+		
+
+<script src="../js/jquery-1.12.3.min.js" type="text/javascript"></script>
+<script src="../js/bootstrap.min.js" type="text/javascript"></script>
+<script type="text/javascript">
+var isSuccess=false;
+$("[name=cusName]").change(function(){
+	var cusName=$(this).val();
+	$.ajax({
+		cache:false,
+		type:"post",
+		url:"checkCusName.do",
+		data:{"cusName":cusName},
+		async:true,
+		error:function(){
+			alert("输入用户名失败");
+		},
+		
+		success:function(data){
+			if(data=="true"){
+				$("#cusName").text("用户名已存在");
+				isSuccess=true;
+			}else{
+				$("#cusName").text("");
+				isSuccess=false;
+			}
+		}	
+	});
+	
+})
+ 
+$("[name=cusPhone]").change(function(){
+	var cusPhone=$(this).val();
+	var regex = /^1[3456789]\d{9}$/;
+	if(!regex.test(cusPhone)){
+		$("#cusPhone").text("请输入11位手机号");
+		isSuccess=true;
+	}else{
+		$("#cusPhone").text("");
+		isSuccess=false;
+	}
+})
+
+$("[name=cusAddress]").change(function(){
+	var cusAddress=$(this).val();
+	var regex = /^[\u0391-\uFFE5]+$/;
+	if(!regex.test(cusAddress)){
+		$("#cusAddress").text("地址不正确");
+		isSuccess=true;	
+	}else{
+		$("#cusAddress").text("");
+		isSuccess=false;
+	}
+})
+
+$("[name=cusPwd]").change(function(){
+	var cusPwd=$(this).val();
+	var regex=/^(\w){6,20}$/;
+	if(!regex.test(cusPwd)){
+		$("#cusPwd").text("只能输入6-20个字母、数字、下划线 ");
+		isSuccess=true;	
+	}else{
+		$("#cusPwd").text("");
+		isSuccess=false;
+	}
+})
+
+$("[name=cusPwd2]").change(function(){
+	var cusPwd2=$(this).val();
+	var cusPwd=$(this).parents("#register_form").children().find("[name=cusPwd]").val();
+	if(cusPwd!==cusPwd2){
+		$("#cusPwd2").text("两次密码不一致");
+		isSuccess=true;
+	}else{
+		$("#cusPwd2").text("");
+		isSuccess=false;	
+	}
+})
+
+$("#register_btn").click(function(){
+	$.ajax({
+		cache:false,
+		type:"post",
+		url:"register.do",
+		data:$("#register_form").serialize(),
+		async:true,
+		error:function(){
+			alert("注册失败");
+		},
+		success:function(data){
+			alert(data);
+			location.href(data);
+		}
+	});
+	return isSuccess;
+})
+</script>
+</body>
+</html>

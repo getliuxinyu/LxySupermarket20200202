@@ -27,6 +27,21 @@ public class Customers {
 	}
 	
 	
+	public Customers(int customerId, String customerName, String customerPhone, String customerAddress) {
+		super();
+		this.customerId = customerId;
+		this.customerName = customerName;
+		this.customerPhone = customerPhone;
+		this.customerAddress = customerAddress;
+	}
+	
+	public Customers(String customerName, String customerPwd, String customerPhone, String customerAddress) {
+		super();
+		this.customerName = customerName;
+		this.customerPwd = customerPwd;
+		this.customerPhone = customerPhone;
+		this.customerAddress = customerAddress;
+	}
 	public Customers(String customerName, String customerPwd) {
 		super();
 		this.customerName = customerName;

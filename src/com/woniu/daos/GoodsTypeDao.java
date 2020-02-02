@@ -107,4 +107,78 @@ public class GoodsTypeDao {
 			ConnectionManager.closeConnection(conn);
 		}
 	}
+	/**增加
+	 * @throws SQLException */
+	public void addGoodsType(String gsCode, String gsName) throws SQLException {
+		Connection conn = ConnectionManager.getConnections();
+		try {
+			PreparedStatement pre = conn.prepareStatement("insert into goodstype(goodstype_code,goodstype_name,goodstype_remarks) values(?,?,'未确认')");
+			pre.setString(1, gsCode);
+			pre.setString(2, gsName);
+			pre.executeUpdate();
+		} finally{
+			ConnectionManager.closeConnection(conn);
+		}
+		
+	}
+	/**确认
+	 * @throws SQLException */
+	public void confirmGoodsType(int gsId) throws SQLException {
+		Connection conn = ConnectionManager.getConnections();
+		try {
+			PreparedStatement pre = conn.prepareStatement("update goodstype set goodstype_remarks='确认' where goodstype_id=?");
+			pre.setInt(1, gsId);
+			pre.executeUpdate();
+		} finally{
+			ConnectionManager.closeConnection(conn);
+		}
+	}
+	/**删除
+	 * @throws SQLException */
+	public void deleteGoodsType(int gsId) throws SQLException {
+		Connection conn = ConnectionManager.getConnections();
+		try {
+			PreparedStatement pre = conn.prepareStatement("delete from goodstype where goodstype_id=?");
+			pre.setInt(1, gsId);
+			pre.executeUpdate();
+		} finally{
+			ConnectionManager.closeConnection(conn);
+		}
+		
+	}
+	/**修改页面展示
+	 * @throws SQLException */
+	public GoodsType selectById(int gsId) throws SQLException {
+		Connection conn = ConnectionManager.getConnections();
+		try {
+			PreparedStatement pre = conn.prepareStatement("select * from goodstype where goodstype_id=?");
+			pre.setInt(1, gsId);
+			ResultSet re = pre.executeQuery();
+			GoodsType gt=null;
+			if(re.next()){
+				int gId = re.getInt("goodstype_id");
+				String gsCode = re.getString("goodstype_code");
+				String gsName = re.getString("goodstype_name");
+				String gsRemarks = re.getString("goodstype_remarks");
+				gt = new GoodsType(gId, gsCode, gsName, gsRemarks);
+			}
+			return gt;
+		} finally{
+			ConnectionManager.closeConnection(conn);
+		}
+	}
+	/**修改
+	 * @throws SQLException */
+	public void updateGoodsType(String gsCode, String gsName, int gsId) throws SQLException {
+		Connection conn = ConnectionManager.getConnections();
+		try {
+			PreparedStatement pre = conn.prepareStatement("update goodstype  set  goodstype_code=?,goodstype_name=?  where goodstype_id=?");
+			pre.setString(1, gsCode);
+			pre.setString(2, gsName);
+			pre.setInt(3, gsId);
+			pre.executeUpdate();
+		} finally{
+			ConnectionManager.closeConnection(conn);
+		}
+	}
 }

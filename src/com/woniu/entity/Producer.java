@@ -15,13 +15,13 @@ public class Producer {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	public Producer(int proId, String proCode, String proName, String proPhone, String proRemarks) {
+	public Producer(int proId, String proCode, String proName, String proPhone,String proAddress) {
 		super();
 		this.proId = proId;
 		this.proCode = proCode;
 		this.proName = proName;
 		this.proPhone = proPhone;
-		this.proRemarks = proRemarks;
+		this.proAddress = proAddress;
 	}
 	
 	public Producer(int proId, String proCode, String proName, String proPhone, String proAddress, String proRemarks) {
@@ -33,6 +33,16 @@ public class Producer {
 		this.proAddress = proAddress;
 		this.proRemarks = proRemarks;
 	}
+	
+	public Producer(String proCode, String proName, String proPhone, String proAddress) {
+		super();
+		this.proCode = proCode;
+		this.proName = proName;
+		this.proPhone = proPhone;
+		this.proAddress = proAddress;
+	}
+	
+
 	public String getProAddress() {
 		return proAddress;
 	}

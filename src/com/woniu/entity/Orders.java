@@ -13,10 +13,24 @@ public class Orders {
 	private Date orderDate;
 	private float orderPrice;
 	private String orderRemarks;
+	private String orderStatus;
+	private Customers cus;
 	public Orders() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
+	
+	public Orders(String orderCode, int customerId, Date orderDate, float orderPrice, String orderRemarks,
+			String orderStatus) {
+		super();
+		this.orderCode = orderCode;
+		this.customerId = customerId;
+		this.orderDate = orderDate;
+		this.orderPrice = orderPrice;
+		this.orderRemarks = orderRemarks;
+		this.orderStatus = orderStatus;
+	}
+
 	public Orders(String orderCode, int customerId, Date orderDate, String orderRemarks) {
 		super();
 		this.orderCode = orderCode;
@@ -34,6 +48,22 @@ public class Orders {
 		this.orderRemarks = orderRemarks;
 	}
 	
+	public Customers getCus() {
+		return cus;
+	}
+
+	public void setCus(Customers cus) {
+		this.cus = cus;
+	}
+
+	public String getOrderStatus() {
+		return orderStatus;
+	}
+
+	public void setOrderStatus(String orderStatus) {
+		this.orderStatus = orderStatus;
+	}
+
 	public float getOrderPrice() {
 		return orderPrice;
 	}
@@ -65,11 +95,13 @@ public class Orders {
 	public void setOrderRemarks(String orderRemarks) {
 		this.orderRemarks = orderRemarks;
 	}
+
 	@Override
 	public String toString() {
 		return "Orders [orderCode=" + orderCode + ", customerId=" + customerId + ", orderDate=" + orderDate
-				+ ", orderRemarks=" + orderRemarks + "]";
+				+ ", orderPrice=" + orderPrice + ", orderRemarks=" + orderRemarks + ", orderStatus=" + orderStatus
+				+ "]";
 	}
-	
+
 	
 }

@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="goodstype" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="producer" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -9,46 +9,42 @@
 <link href="${pageContext.request.contextPath}/css/bootstrap.min.css" type="text/css" rel="stylesheet"/>
 </head>
 <body>
-<form action="${pageContext.request.contextPath }/goodstype/gt.do" method="post" name="goodsForm">
+<form action="${pageContext.request.contextPath }/producer/pro.do" method="post" name="producerForm">
 	<div style="width:1000px;margin:0 auto;">
-		商品类型编号：<input type="text" name="gsCode" value="${requestScope.map.gscode}">
-		商品类型名称：<input type="text" name="gsName" value="${requestScope.map.gsname}">
+		商品编号：<input type="text" name="proCode" value="${requestScope.map.proCode}">
+		商品名称：<input type="text" name="proName" value="${requestScope.map.proName}">
 		<input type="submit" value="查询" class="btn btn-primary">
 	</div>
 	<div style="text-align:right;width:1000px;margin:10px auto">
-		<a  class="btn btn-success" href="goodstypeAdd.jsp">增加</a>
+		<a  class="btn btn-success" href="producerAdd.jsp">增加</a>
 	</div>
 	<table class="table table-striped table-striped table-bordered table-hover" id="goodsTable" style="width:1100px;margin: 20px auto">
-	<caption style="text-align: center;width:1000px;margin:auto;"><h3>产品类型表</h3></caption>
+	<caption style="text-align: center;width:1000px;margin:auto;"><h3>生厂商</h3></caption>
 	<thead>
 		<tr>
-			<th>产品类型id</th>
-			<th>产品类型编号</th>
-			<th>产品类型名称</th>
-			<th>备注</th>
+			<th>生厂商id</th>
+			<th>生厂商编号</th>
+			<th>生厂商名称</th>
+			<th>生厂商地址</th>
+			<th>生厂商电话</th>
 		</tr>
 	</thead>
 	<tbody>
-		<goodstype:forEach items="${requestScope.map.page.li }" var="goodstype" >
+		<producer:forEach items="${requestScope.map.page.li }" var="producer" >
 			<tr>
-				<td>${goodstype.gsId }</td>
-				<td>${goodstype.gsCode }</td>
-				<td>${goodstype.gsName }</td>
-				<td>${goodstype.gsRemarks }</td>
+				<td>${producer.proId }</td>
+				<td>${producer.proCode }</td>
+				<td>${producer.proName }</td>
+				<td>${producer.proAddress }</td>
+				<td>${producer.proPhone }</td>
 				
 				<td style="width:140px;">
-					<goodstype:choose>
-						<goodstype:when test="${goodstype.gsRemarks=='未确认'}">
-							<a href="${pageContext.request.contextPath}/goodstype/goodstypeConf.do?goodstypeId=${goodstype.gsId}" class="btn btn-success btn-xs">确认</a>
-						</goodstype:when>
-						<goodstype:otherwise>
-							<a href="${pageContext.request.contextPath}/goodstype/goodstypeUpdUI.do?goodstypeId=${goodstype.gsId}" class="btn btn-warning btn-xs">修改</a>
-							<a href="${pageContext.request.contextPath}/goodstype/goodstypeDel.do?goodstypeId=${goodstype.gsId}" class="btn btn-danger btn-xs">删除</a>
-						</goodstype:otherwise>
-					</goodstype:choose>
+						<a href="${pageContext.request.contextPath}/producer/producerUpdUI.do?producerId=${producer.proId}" class="btn btn-warning btn-xs">修改</a>
+						<a href="${pageContext.request.contextPath}/producer/producerDel.do?producerId=${producer.proId}" class="btn btn-danger btn-xs">删除</a>
+					
 				</td>
 			</tr>
-		</goodstype:forEach>		
+		</producer:forEach>		
 	</tbody>
 			<tr >
 				<td colspan="5">
@@ -58,18 +54,18 @@
 					&nbsp; &nbsp;
 					<!-- 当前页 -->
 					当前页：	
-					<goodstype:forEach begin="1" end="${requestScope.map.page.totalPages}" var="i">
-						<goodstype:choose>
-							<goodstype:when test="${requestScope.map.page.currentPage==i}">
+					<producer:forEach begin="1" end="${requestScope.map.page.totalPages}" var="i">
+						<producer:choose>
+							<producer:when test="${requestScope.map.page.currentPage==i}">
 							<!-- 如果是当前页码，就显示页码 -->
 								${i}
-							</goodstype:when>
-							<goodstype:otherwise>
+							</producer:when>
+							<producer:otherwise>
 							<!-- 如果不是就超链接 -->
 							<a href="javascript:goPage(${i})">${i}</a>
-							</goodstype:otherwise>
-						</goodstype:choose>
-					</goodstype:forEach>
+							</producer:otherwise>
+						</producer:choose>
+					</producer:forEach>
 					&nbsp; &nbsp;
 					<!-- 页面显示条目数 -->
 					
@@ -102,8 +98,8 @@
 <script type="text/javascript" src="${pageContext.request.contextPath}/js/bootstrap.min.js"></script>
 <script type="text/javascript">
 	function goPage(cutPage){
-		goodsForm.currentPage.value=cutPage;
-		goodsForm.submit();
+		producerForm.currentPage.value=cutPage;
+		producerForm.submit();
 	}
 $("[name=pageSize] option[value=${requestScope.map.page.pageSize}]").attr("selected","selected");
 </script>

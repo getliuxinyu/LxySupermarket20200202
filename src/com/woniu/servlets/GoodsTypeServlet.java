@@ -19,7 +19,7 @@ import com.woniu.entity.PageInfo;
 /**
  * Servlet implementation class GoodsTypeServlet
  */
-@WebServlet("/goodstype/gt.do")
+@WebServlet({"/goodstype/gt.do","/goodstype/goodstypeAdd.do","/goodstype/goodstypeConf.do","/goodstype/goodstypeDel.do","/goodstype/goodstypeUpdUI.do","/goodstype/goodstypeUpd.do"})
 public class GoodsTypeServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -46,7 +46,7 @@ public class GoodsTypeServlet extends HttpServlet {
 				int totalCount = gd.getTotalCount(goodsTypeCode,goodsTypeName);
 				pageInfo.setTotalCount(totalCount);
 				
-				int pageSize = 2;
+				int pageSize = 3;
 				String tempPageSize = request.getParameter("pageSize");
 				if(tempPageSize!=null){
 					pageSize=Integer.parseInt(tempPageSize);
@@ -70,7 +70,7 @@ public class GoodsTypeServlet extends HttpServlet {
 				pageInfo.setCurrentPage(currentPage);
 				
 				List<GoodsType> li = gd.selectGoodsType(goodsTypeCode,goodsTypeName,pageInfo);
-				System.out.println(li);
+			
 				pageInfo.setLi(li);
 				Map<String, Object> map = new HashMap<String, Object>();
 				map.put("gscode", goodsTypeCode);
@@ -78,6 +78,61 @@ public class GoodsTypeServlet extends HttpServlet {
 				map.put("page", pageInfo);
 				request.setAttribute("map", map);
 				request.getRequestDispatcher("goodstype.jsp").forward(request, response);
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		else if(path.equals("/goodstype/goodstypeAdd.do")){
+			
+			try {
+				String gsCode = request.getParameter("goodsTypeCode");
+				String gsName = request.getParameter("goodsTypeName");
+				gd.addGoodsType(gsCode,gsName);
+				response.sendRedirect("gt.do");
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		else if(path.equals("/goodstype/goodstypeConf.do")){
+			try {
+				int gsId = Integer.parseInt(request.getParameter("goodstypeId"));
+				gd.confirmGoodsType(gsId);
+				response.sendRedirect("gt.do");
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		else if(path.equals("/goodstype/goodstypeDel.do")){
+			try {
+				int gsId = Integer.parseInt(request.getParameter("goodstypeId"));
+				gd.deleteGoodsType(gsId);
+				response.sendRedirect("gt.do");
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		else if(path.equals("/goodstype/goodstypeUpdUI.do")){
+			try {
+				int gsId = Integer.parseInt(request.getParameter("goodstypeId"));
+				GoodsType gt = gd.selectById(gsId);
+				request.setAttribute("goodstype", gt);
+				request.getRequestDispatcher("goodstypeUpd.jsp").forward(request, response);
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		else if(path.equals("/goodstype/goodstypeUpd.do")){
+			try {
+				int gsId = Integer.parseInt(request.getParameter("goodstypeId"));
+				String gsCode = request.getParameter("goodsTypeCode");
+				String gsName = request.getParameter("goodsTypeName");
+				gd.updateGoodsType(gsCode,gsName,gsId);
+				response.sendRedirect("gt.do");
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

@@ -16,7 +16,7 @@ import com.woniu.entity.Orders;
  * 订单
  * Servlet implementation class OrdersServlet
  */
-@WebServlet("/front/orderConfirm.do")
+@WebServlet({"/front/orderConfirm.do"})
 public class OrdersFrontServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        

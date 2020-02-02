@@ -71,6 +71,10 @@
 							      			<li>
 							      				<a href="${pageContext.request.contextPath }/producer/pro.do" target="goodsFrame">供应商管理</a>
 							      			</li>
+							      			
+							      			<li>
+							      				<a href="${pageContext.request.contextPath }/customers/customer.do" target="goodsFrame">顾客管理</a>
+							      			</li>
 							      		</ul>
 							      </div>
 							    </div>
@@ -88,10 +92,29 @@
 							      <div class="panel-body">
 							      		<ul>
 							      			<li>
-							      				<a href="#" target="goodsFrame">入库管理</a>
+							      				<a href="${pageContext.request.contextPath }/instock/in.do" target="goodsFrame">入库管理</a>
 							      			</li>
 							      			<li>
 							      				<a href="${pageContext.request.contextPath }/outstock/out.do" target="goodsFrame">出库管理</a>
+							      			</li>
+							      		</ul>
+							      </div>
+							    </div>
+							  </div>
+							  
+							  <div class="panel panel-default">
+							    <div class="panel-heading">
+							      <h4 class="panel-title">
+							        <a data-toggle="collapse" data-toggle="collapse" data-parent="#accordion" href="#collapseThree">
+							          	订单管理
+							        </a>
+							      </h4>
+							    </div>
+							    <div id="collapseTwo" class="panel-collapse collapse in">
+							      <div class="panel-body">
+							      		<ul>
+							      			<li>
+							      				<a href="${pageContext.request.contextPath }/orders/order.do" target="goodsFrame">订单管理</a>
 							      			</li>
 							      		</ul>
 							      </div>

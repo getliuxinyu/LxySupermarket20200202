@@ -44,7 +44,7 @@
 			  <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 			  	<ul class="nav navbar-nav navbar-right">
 			  		<li><a href="case.html" id="login"><span class="glyphicon glyphicon-fire"></span><span id="login_info">登录</span></a></li>
-			  		<li><a href="case.html"><span class="glyphicon glyphicon-fire"></span>注册</a></li>
+			  		<li><a href="register.html"><span class="glyphicon glyphicon-fire"></span>注册</a></li>
 					<li><a href="shopping.html" class="logonConfirm"><span class="glyphicon glyphicon-home"></span>购物车 <span class="badge" >42</span></a></li>
 					<li><a href="information.html"><span class="glyphicon glyphicon-list"></span>个人资料</a></li>
 					 
@@ -112,7 +112,7 @@
 									<p>库存量:<span>10</span></p>
 									
 									<p>
-										<button class="btn btn-danger">购买</button>
+										<button class="btn btn-danger" >购买</button>
 										&nbsp;&nbsp;&nbsp;&nbsp;
 										<button class="btn btn-success">加入购物车</button>
 									</p>
@@ -256,7 +256,7 @@
 				    		str=str+"<p>库存量:<span>"+goodsList[i].goodsCount+"</span></p>";
 									
 				    		str=str+"<p>";
-				    		str=str+"<button class=\"btn btn-danger\">购买</button>";
+				    		str=str+"<button class=\"btn btn-danger\" name=\"buy_goods_btn\" title="+goodsList[i].goodsId+">购买</button>";
 				    		str=str+"&nbsp;&nbsp;&nbsp;&nbsp;";
 				    		str=str+"<button class=\"btn btn-success\" name=\"add_shop_btn\"  title="+goodsList[i].goodsId+">加入购物车</button>";
 				    		str=str+"</p>";
@@ -300,6 +300,8 @@
 				});
 				
 			}
+			
+		
 			
 			//购物车验证
 			$(".logonConfirm").click(function(){
